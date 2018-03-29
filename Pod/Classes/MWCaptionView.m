@@ -26,11 +26,8 @@ static const CGFloat labelPadding = 10;
     if (self) {
         self.userInteractionEnabled = NO;
         _photo = photo;
-        self.barStyle = UIBarStyleBlackTranslucent;
-        self.tintColor = nil;
-        self.barTintColor = nil;
-        self.barStyle = UIBarStyleBlackTranslucent;
-        [self setBackgroundImage:nil forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+        self.barStyle = UIBarStyleDefault;
+        self.translucent = NO;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
         [self setupCaption];
     }
@@ -48,24 +45,24 @@ static const CGFloat labelPadding = 10;
 }
 
 - (void)setupCaption {
+
     _label = [[UILabel alloc] initWithFrame:CGRectIntegral(CGRectMake(labelPadding, 0,
                                                                       self.bounds.size.width-labelPadding*2,
                                                                       self.bounds.size.height))];
     _label.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    _label.opaque = NO;
-    _label.backgroundColor = [UIColor colorWithRed:247 green:247 blue:248 alpha:0.95];
+    _label.opaque = YES;
+    _label.backgroundColor = [UIColor clearColor];
     _label.textAlignment = NSTextAlignmentCenter;
     _label.lineBreakMode = NSLineBreakByWordWrapping;
 
     _label.numberOfLines = 0;
     _label.textColor = [UIColor blackColor];
-    _label.font = [UIFont systemFontOfSize:15];
+    _label.font = [UIFont systemFontOfSize:15 weight:UIFontWeightRegular];
     if ([_photo respondsToSelector:@selector(caption)]) {
         _label.text = [_photo caption] ? [_photo caption] : @" ";
     }
+
     [self addSubview:_label];
 }
 
-
 @end
-
