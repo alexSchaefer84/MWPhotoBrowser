@@ -977,8 +977,13 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
 - (CGRect)frameForCaptionView:(MWCaptionView *)captionView atIndex:(NSUInteger)index {
     CGRect pageFrame = [self frameForPageAtIndex:index];
     CGSize captionSize = [captionView sizeThatFits:CGSizeMake(pageFrame.size.width, 0)];
+    CGFloat adjust = 0;
+    if (@available(iOS 11.0, *)) {
+        UIEdgeInsets safeArea = [[UIApplication sharedApplication] keyWindow].safeAreaInsets;
+        adjust = safeArea.bottom;
+    }
     CGRect captionFrame = CGRectMake(pageFrame.origin.x,
-                                     pageFrame.size.height - captionSize.height - (_toolbar.superview?_toolbar.frame.size.height:0),
+                                     pageFrame.size.height - captionSize.height - (_toolbar.superview?_toolbar.frame.size.height:0) - adjust,
                                      pageFrame.size.width,
                                      captionSize.height);
     return CGRectIntegral(captionFrame);
